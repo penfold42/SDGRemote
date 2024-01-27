@@ -1,0 +1,24 @@
+SDGRemote disclaimer
+	
+The author is not affiliated with Siglent and they have no knowledge of this software.
+
+The author reserves the right to modify these terms at any time.
+
+No person or entity may make direct or in-direct commerical gain from this software without prior agreement. This includes but is not limited to selling it, hosting it, supporting it, or incorporating it in another product or offering.
+
+	
+This software not only monitors the device but will initate commands that could damage your device, other equipment and circuitry attached to it.
+
+penfold42 will not be liable for any direct or in-direct consequences of your use of this software.
+
+This comes with no warranty, guarantees or commitment of support implied or otherwise.
+
+	
+The user assumes all risk in the use of this software.
+
+More information on this web UI will be available at my Github page
+
+The use of this software requires you agree to these terms.
+
+ 
+

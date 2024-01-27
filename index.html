@@ -1,0 +1,969 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>SDG controller</title>
+<link rel="icon" type="image/x-icon" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="touch-icon-iphone-retina.png">
+
+<script>
+function setFocus(e) {
+	document.getElementById(e).focus({ focusVisible: true});
+}
+</script>
+
+
+<style>
+
+:root {
+  --ledButGreen: #ACE4A3;
+  --ledButRed: IndianRed;
+  --ledButBeige: #abb9c2;
+}
+
+@font-face {
+	font-family: 'SevenSeg';
+	src: url('DSEG7ClassicMini-Italic.woff2') format('woff2');
+}
+@font-face {
+	font-family: 'FourteenSeg';
+	src: url('DSEG14ClassicMini-Italic.woff2') format('woff2');
+}
+
+body {
+  background-color: DimGrey;
+}
+
+#wholepage {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+
+#frontpanel {
+  width: 900px;
+  margin: auto;
+
+  border-radius: 5px;
+  border: 6px;
+  border-style: inset;
+  border-color: #d2d1cf;
+}
+
+#frontpanel table {
+  background-color:#d2d1cf;
+  border: 0px solid;
+  border-collapse: collapse;
+}
+
+#frontpanel table td {
+  border: 0px solid;
+  border-color: black;
+}
+
+button {
+  border-radius: 10px;
+  border-color: rgb(227, 227, 227);
+  border-style: outset inset outset inset;
+
+  box-shadow: -6px 6px 6px 0 rgba(0,0,0,0.2), -4px 4px 10px 0 rgba(0,0,0,0.19);
+  cursor: pointer;
+  transition-duration: 0.1s;
+  
+  font-weight: bold;
+  font-size: 14px;
+  color: black;
+
+  background-color: #cecdc8;
+
+  padding-top:1px; padding-bottom:1px;
+  padding-left:1px; padding-right:1px;
+
+  touch-action: manipulation;
+  -webkit-transition-delay: 0.0s;
+}
+
+@media (hover: hover) {
+  button:hover {
+    border-style: inset outset outset inset;
+    border: 2px solid black;
+    transition-duration: 0.1s;
+    }
+}
+@media (hover: hover) {
+  button:active {
+    transition-delay: 0s;
+    transition-duration: 0.1s;
+    box-shadow: -3px 3px 6px 0 rgba(0,0,0,0.2); 
+    scale: 95%;
+  }
+}
+
+button:disabled {
+  opacity: none;
+  transform: none;
+}
+
+@keyframes staleanim {
+  from { filter: sepia(0%) brightness(100%) contrast(100%);}
+  to { filter: sepia(100%) brightness(50%) contrast(50%);}
+}
+
+.staleinfo {
+  animation: staleanim 2s forwards;
+}
+
+.green {
+  background-color: var(--ledButGreen);
+}
+.yellow {
+  background-color: #d0d000;
+}
+.red {
+  background-color: var(--ledButRed);
+}
+.black {
+  background: black;
+}
+.cyanblack {
+  color:cyan;
+  color:#5bd7d7;
+}
+
+#banner img {
+  background-color: #142d4d;
+}
+
+#banner table {
+  width: 100%;
+  text-align: center;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  border: 0px solid black;
+}
+#banner table td {
+  border: 0px solid black;
+}
+#model {
+  font-family: Roboto,sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: left;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#banner2 td {
+  font-family: monospace;
+  font-size: 20px;
+  text-align: center;
+}
+#banner2 button{
+  border-radius: 5px;
+  padding-left: 2px;
+  padding-right: 2px;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+button#txbut {
+  border-color: black;
+  box-shadow: none;
+  border-radius: 10px;
+  border-style: solid;
+}
+
+#scopeview button {
+  width: 100%;
+  color:white;
+  background-color:#6e6e75;
+  border-radius: 10px;
+  padding-top:5px;
+  padding-bottom:5px;
+}
+
+#screenbmp {
+  border-radius: 5px;
+  border: 5px;
+  border-color: #d2d1cf;
+  border-style: inset;
+}
+
+td img {
+  display:block;
+  background-color:black;
+}
+
+
+#funcbuttons  {
+  border-radius: 2px;
+  border: 2px;
+  border-color: #d2d1cf;
+  border-style: inset;
+}
+
+#funcbuttons td {
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 5px;
+  padding-bottom: 2px;
+}
+
+#numpad table {
+  background-color:#a8a8a8;
+  text-align: center;
+  border-radius: 8px;
+}
+#numpad table td {
+  padding-top:5px;
+  padding-bottom:5px;
+}
+
+#numpad button {
+  box-sizing: content-box;
+  height: 25px;
+  width: 45px;
+  font-size: 20px;
+  text-align: center;
+}
+
+#navknob table {
+  text-align: center;
+}
+#navknob table td {
+  padding-top:5px;
+  padding-bottom:5px;
+}
+#navknob button {
+  height: 40px; width: 60px;
+  font-size: 12px;
+}
+
+#modsweep table {
+  background-color:#a8a8a8;
+  text-align: center;
+  border-radius: 8px;
+}
+#modsweep table td {
+  padding-top:5px;
+  padding-bottom:5px;
+}
+
+#modsweep button {
+  text-align: center;
+  background-color:var(--ledButBeige);
+  height: 30px;
+  width: 55px;
+  padding: 3px;
+}
+#modsweep button.offoff {
+  background-color:var(--ledButBeige);
+}
+#modsweep button.onoff {
+  background: linear-gradient(to right, var(--ledButGreen) 50%, var(--ledButBeige) 50%);
+}
+#modsweep button.offon {
+  background: linear-gradient(to right, var(--ledButBeige) 50%, var(--ledButGreen) 50%);
+}
+#modsweep button.onon {
+  background-color: var(--ledButGreen);
+}
+
+#wavefm button {
+  width: unset;
+}
+#ch1ch2 button {
+  background-color:#618a9e;
+  width: unset;
+}
+
+#outputs table {
+  width: 200px;
+  text-align: center;
+  border-spacing: 0;
+  border-collapse: separate;
+}
+
+#outputs td {
+  border: 2px;
+  border-style: solid;
+  border-radius: 8px;
+}
+
+#ch1td {
+  background-color: #2C6B07;
+  border-color: #2C6B07;
+}
+#ch2td {
+  background-color: #E4C70C;
+  border-color: #E4C70C;
+}
+
+#outputs button {
+  height: 24px;
+  width: 86px;
+  background-color: var(--ledButBeige);
+  font-size: 16px;
+}
+#outputs button.green {
+  background-color: var(--ledButGreen);
+}
+#outputs button.red {
+  background-color: var(--ledButRed);
+}
+td#outputsimg {
+	background-image: url(siglent-outputs.png);
+	width: 200px; height: 108px;
+	background-size: 200px 108px;
+	background-repeat: no-repeat;
+	padding: 0px;
+}
+
+.padding0{
+  padding: 0px;
+}
+.padding5{
+  padding: 5px;
+}
+
+
+#scpitools {
+  width: 900px;
+  margin: auto;
+
+  border-radius: 5px;
+  border: 6px;
+  border-style: inset;
+  border-color: #d2d1cf;
+
+  user-select: text;
+  -webkit-user-select: text;
+
+}
+
+.scpibutton {
+  border-radius: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 60px;
+}
+
+.scpitablediv {
+  overflow-x:auto;
+  height: 100px;
+}
+
+#scpitools table {
+  background-color: #d2d1cf;
+  border: 0px solid;
+  width: 100%;
+}
+
+#scpi {
+  color:black;
+  display:block;
+}
+.vt100 {
+  font-size: 16px;
+  font-family: monospace;
+  background-color: black;
+  color:#56ff00;
+}
+
+.scpireply {
+  resize: none;
+  width: 600px;
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+
+#csv {
+  vertical-align: top;
+}
+#csv table {
+  width: 200px;
+  background-color: DarkGrey;
+  font-family: monospace;
+  text-align: center;
+}
+
+#counter {
+  width: 900px;
+  margin: auto;
+
+  border-radius: 5px;
+  border: 6px;
+  border-style: inset;
+  border-color: #d2d1cf;
+
+  background-color: #DBD7D4;
+}
+
+#vfdarea {
+  border-spacing: 0px;
+  font-family: monospace;
+  font-size: 30px;
+  border-radius: 0px;
+  border: 6px;
+  border-color: #d2d1cf;
+  border-color: darkgrey;
+  border-style: inset;
+  background-color: black;
+}
+
+#frequency {
+  text-align: right;
+  font-family: 'FourteenSeg';
+  font-family: 'SevenSeg';
+  font-size:80px;
+  padding: 10px;
+
+}
+
+#mhzkhz {
+  font-size: 20px;
+  text-align: left;
+  vertical-align: middle;
+}
+#fcntModes {
+  font-size:20px;
+  text-align: right;
+}
+#fcntModes span {
+	margin-right: 10px;
+}
+
+#counterButtons {
+  width: 95%;
+  margin: auto;
+  background-color: #DBD7D4;
+  border-spacing: 0px;
+  margin-top: 5px;
+}
+
+#counterButtons td {
+  text-align: center;
+  vertical-align: top;
+
+  padding-left: 0px;
+  padding-right: 0px;
+  line-height: 0;
+  font-family: monospace;
+}
+
+#counterLegend td {
+  font-size: 16px;
+  line-height: 50%;
+}
+.tlrborder span {
+  padding-left: 10px;
+  padding-right: 10px;
+  transform: translateY(-8px);
+  display:inline-table;
+  background-color: #DBD7D4;
+}
+
+.tlrborder {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  border: 3px solid silver;
+  border-top: 7px solid silver;
+  border-bottom: none;
+}
+.lborder {
+  border-left: 3px solid silver;
+}
+.rborder {
+  border-right: 3px solid silver;
+}
+.blrborder {
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border: 3px solid silver;
+  border-top: none;
+}
+
+#achfr td {
+  vertical-align: middle;
+  padding-top: 2px;
+}
+#achfr td button {
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-left: 0px;
+}
+#achfr td .led {
+  margin-top: 0px;
+  margin-bottom: 8px;
+}
+
+#counterButtons button {
+  border-radius: 6px;
+  cursor: pointer;
+  transition-duration: 0.1s;
+
+  font-weight: bold;
+  font-size: 12px;
+  text-align: left;
+
+  margin-top: 4px;
+  margin-right: 4px;
+  margin-left: 0px;
+  padding-left: 3px;
+}
+
+.hpdark {
+  background-color: #6C6D69;
+  color: #E2E7E6;
+}
+.hplight {
+  background-color: #DDD9D5;
+  color: #4C4045;
+}
+.hpbeige {
+  background-color: beige;
+  color: #4C4045;
+}
+
+#counterButtons .hpsq {
+  width: 40px;
+  height: 40px;
+  margin-right: 24px;
+}
+
+#counterButtons .smtext {
+  font-size: 12px;
+  font-weight: bold;
+  vertical-align: middle;
+}
+
+#counterButtons .hpsqsm {
+  width: 26px;
+  height: 26px;
+}
+
+#counterButtons .hprect {
+  width: 60px;
+  height: 40px;
+  margin-right: 24px;
+}
+
+#counterButtons .led {
+  width: 13px;
+  height: 13px;
+
+  margin-top: 8px;
+  margin-left: 0px;
+  margin-right: 0px;
+
+  border-radius: 8px;
+  border: 2px solid black;
+  box-shadow: none;
+}
+
+#counterButtons .RemoteTxt {
+	vertical-align: bottom;
+	text-align: left;
+}
+#counterButtons .RemoteTxt span {
+	display:block;
+	margin-bottom: 11px;
+}
+
+div.fullpage {
+  width: 900px;
+  margin: auto;
+
+  border-radius: 5px;
+  border: 6px;
+  border-style: inset;
+  border-color: #d2d1cf;
+
+  font-family: monospace;
+
+  background-color:#d2d1cf;
+  font-size: 18px;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+div.fullpage div {
+  width: 90%;
+  margin-left: 50px;
+  margin-right: 50px;
+  margin-bottom: 50px;
+}
+#disclaimer button {
+  border-radius: 6px;
+  border-color: black;
+  height: 60px;
+  width: 260px;
+
+  box-shadow: 8px 8px 16px 0 rgba(0,0,0,0.2), 6px 6px 20px 0 rgba(0,0,0,0.19);
+  cursor: pointer;
+
+  font-weight: bold;
+  font-size: 24px;
+  text-align: center;
+
+  padding: 10px;
+}
+#disclaimer table td {
+  text-align: justify;
+  border: 1px solid black;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<script type="text/javascript" src="sdg.js"></script>
+
+<div id="wholepage">
+<div id="frontpanel" style="display:none;">
+<table align="center">
+
+<tr>
+<td id="banner">
+<table>
+<tr>
+<td><img src="siglent-logo.png" width="109px">
+<td id="model" width="100%">SDG?????
+<td><select id="devices" onChange="onChangeDevice(this)">
+</table>
+
+<td id="banner2" colspan="2">
+<table align="right">
+<td><button id="helpBut" name="INT_SHOWHELP"><u>H</u>elp</button></td>
+<td><button id="toolsBut" name="INT_SHOWTOOLS"><u>T</u>ools</button></td>
+<td><button id="counterBut" name="INT_SHOWCOUNTER"><u>F</u>reqCtr</button></td>
+<td><button id="refresh" name="INT_REFRESH"><u>R</u>efresh</button></td>
+<td><button id="beep" name="INT_BEEP">&#9835;</button></td>
+<td><button id="txbut" disabled>TX</button></td>
+</table>
+
+<tr>
+<td id="scopeview" rowspan="2">
+	<table style="table-layout: fixed;">
+	<tr>
+	<td colspan="6" width="100%">
+	  <img id="screenbmp" width="478px" height="272px">
+	</td>
+
+	<tr id="funcbuttons">
+	<td width="17%"><button name="KB_FUNC1"> ! </td>
+	<td width="17%"><button name="KB_FUNC2"> @ </td>
+	<td width="17%"><button name="KB_FUNC3"> # </td>
+	<td width="17%"><button name="KB_FUNC4"> $ </td>
+	<td width="17%"><button name="KB_FUNC5"> % </td>
+	<td width="17%"><button name="KB_FUNC6"> ^ </td>
+	</tr>
+	</table>
+</td>
+
+
+<td id="numpad" width="50%">
+	<table style="width:100%;">
+	<tr>
+	<td width="33%"><button name="KB_NUMBER_7">7</td>
+	<td width="33%"><button name="KB_NUMBER_8">8</td>
+	<td width="33%"><button name="KB_NUMBER_9">9</td>
+	<tr>
+	<td><button name="KB_NUMBER_4">4</td>
+	<td><button name="KB_NUMBER_5">5</td>
+	<td><button name="KB_NUMBER_6">6</td>
+	<tr>
+	<td><button name="KB_NUMBER_1">1</td>
+	<td><button name="KB_NUMBER_2">2</td>
+	<td><button name="KB_NUMBER_3">3</td>
+	<tr>
+	<td><button name="KB_POINT">.</td>
+	<td><button name="KB_NUMBER_0">0</td>
+	<td><button name="KB_NEGATIVE">+/-</td>
+	</table>
+</td>
+
+
+<td id="navknob" width="50%">
+	<table style="width:100%;">
+	<tr>
+	<td width="33%">
+	<td width="33%"><button name="KB_KNOB_RIGHT">CW<br>&uarr;</button></td>
+	<td width="33%">
+
+	<tr>
+	<td width="33%"><button name="KB_LEFT">LEFT<br>&larr;</td>
+	<td width="33%"><button name="KB_KNOB_DOWN">PUSH<br>&crarr;</td>
+	<td width="33%"><button name="KB_RIGHT">RIGHT<br>&rarr;</td>
+
+	<tr>
+	<td>
+	<td><button name="KB_KNOB_LEFT">CCW<br>&darr;</button></td>
+	<td>
+	</table>
+</td>
+
+<tr>
+<td id="modsweep" width="50%">
+	<table style="width:100%;">
+	<tr>
+	<td width="33%"><button id="mdwv" name="KB_MOD"><u>M</u>od</td>
+	<td width="33%"><button id="swwv" name="KB_SWEEP"><u>S</u>weep</td>
+	<td width="33%"><button id="btwv" name="KB_BURST"><u>B</u>urst</td>
+	<tr>
+	<td><button name="KB_PARAMETER" style="font-size: 60%;"><u>P</u>ara- meter</td>
+	<td><button name="KB_UTILITY"><u>U</u>tility</td>
+	<td><button name="KB_STORE_RECALL"><u>D</u>isk</td>
+	<tr>
+	<td colspan="3">
+		<table width="100%">
+		<tr>
+		<td id="wavefm" align="left"><button name="KB_WAVES"><u>W</u>aveforms</td>
+		<td id="ch1ch2" align="right"><button name="KB_CHANNEL"><u>C</u>h1/<u>C</u>h2</td>
+		</table>
+
+	</table>
+</td>
+
+<td id="outputs" align="center">
+	<table>
+	<tr>
+	<td class="padding5" id="ch1td"><button id="ch1" name="KB_OUTPUT1">Output</button></td>
+	<td class="padding5" id="ch2td"><button id="ch2" name="KB_OUTPUT2">Output</button></td>
+
+	<tr>
+	<td colspan="2" align="center" id="outputsimg">
+<!--	    <img src="siglent-outputs.png" width="200">	-->
+	<tr><td colspan="2" class="padding0">
+	<table id="trigger"><tr>
+	<td><button id="trigger1" name="INT_TRIGGER1">Trigger1</button></td>
+	<td><button id="trigger2" name="INT_TRIGGER2">Trigger2</button></td>
+	</tr></table>
+
+	</table>
+</td>
+</table>
+
+</div>	<!-- frontpanel -->
+
+
+<div id="scpitools" style="display:none;">
+<table align="center" border="0">
+
+<tr>
+<td id="scpi" colspan="2">
+	<div tabindex="0" id="42" class="scpitablediv nokey">
+	<table border="0">
+	<tr>
+	<td width="60%"><input class="nokey" id="scpitext" type="text" size="50" value="*IDN?"></input>
+	<td width="20%"><select class="nokey" id="macros"><option value="0">Free Text</select>
+	<td width="10%"><select class="nokey" id="macro12">
+			<option value="1">Ch1
+			<option value="2">Ch2
+		</select>
+	<td width="10%"><button class="scpibutton hpbeige nokey" name="INT_SCPI_SEND">Send
+	<tr>
+	<td colspan="3" id="scpireplies" class="vt100" onclick="setFocus('42');">
+	<td valign="top"><button class="scpibutton hpbeige nokey" name="INT_SCPI_CLEAR">Clear
+	</table>
+	</div>
+
+<td id="csv" colspan="2" align="center">
+	<div tabindex="0" id="43" class="scpitablediv nokey" onclick="setFocus('43');">
+		<table id="csvtable" class="nokey">
+		</table>
+	</div>
+
+</table>
+
+</div>	<!-- scpi tools -->
+
+<div id="counter" style="display:none;">
+<table id="vfdarea" align="center" class="cyanblack">
+
+<tr>
+<td id="frequency" width="100%" class="cyanblack">8.8.8.8.8.8.8.8.8.8.8.8</td>
+
+<td id="mhzkhz">
+	<span id="MHz">M</span><span id="Hz">Hz</span>
+	<span id="uS">&mu;</span><span id="sec">S</span>
+	<span id="pcent">%</span>
+</td>
+
+<tr>
+<td id="fcntModes">
+	<span id="periodLed">Period</span>
+	<span id="frequencyLed">Freq</span>
+	<span id="pWidthLed">+Wid</span>
+	<span id="nWidthLed">-Wid</span>
+	<span id="dutyLed">Duty</span>
+	<span id="gateLed">Gate</span>
+	<span id="referenceLed">Refr</span>
+	<span id="deviationLed">ppb</span>
+	<span id="trigLevLed">Trig</span>
+	<span id="a1">Ch2</span>
+	<span id="a1" class="cyanblack">Ch1</span>
+	<span id="extrefLed">ExtRef</span>
+<td></td>
+
+</table>
+
+<table id="counterButtons">
+<tr id="counterLegend">
+<td colspan="2">
+<td class="tlrborder" colspan="6"><span>MEASURE</span>
+<td class="tlrborder" colspan="6"><span>CONTROL</span>
+<td class="tlrborder"><span>CH1
+
+<tr>
+<td><button id="onoffFCNT" class="led" disabled></button>
+<td><button class="hpsq hpbeige"  name="INT_CTR_ONOFF">On<br>Off</button>
+
+<td class="lborder"><button id="freqFCNT" class="led" disabled></button>
+<td><button class="hprect hpdark"  name="INT_CTR_DISP_FREQ">Freq&nbsp;&amp; Ref</button>
+
+<td><button id="timeFCNT" class="led" disabled></button>
+<td><button class="hprect hpdark"  name="INT_CTR_DISP_TIME">Time&nbsp;&amp; Period</button>
+
+<td><button id="otherFCNT" class="led" disabled></button>
+<td class="rborder"><button class="hprect hpdark"  name="INT_CTR_DISP_OTHER">Other Meas</button>
+
+<td class="lborder"><button id="refreshFCNT_on" class="led" disabled></button>
+<td><button class="hprect hplight"  name="INT_CTR_REFRESH_ON">Run<br>&nbsp;</button>
+
+<td><button id="refreshFCNT_off" class="led" disabled></button>
+<td><button class="hprect hplight"  name="INT_CTR_REFRESH_OFF">Stop&nbsp;/ Single</button>
+
+<td><button id="fastFCNT" class="led" disabled></button>
+<td class="rborder"><button class="hprect hplight"  name="INT_CTR_FAST">Fast&nbsp;/ Slow</button>
+
+<td class="blrborder" rowspan="2">
+
+<table id="achfr">
+<tr>
+<td><button class="hpsqsm hplight"  name="INT_CTR_AC"></button>
+<td class="smtext">AC<hr>DC</td>
+<td><button id="acLed" class="led" disabled></button>
+<tr>
+<td><button class="hpsqsm hplight"  name="INT_CTR_HFR"></button>
+	<td class="smtext"><p>250kHz<p>Filter</td>
+<td><button id="hfrLed" class="led" disabled></button>
+</table>
+
+<tr>
+<td><button id="txFCNT" class="led" disabled></button>
+<td class="RemoteTxt"><span>Remote<span>
+
+<td class="blrborder" colspan="6">
+<td class="blrborder" colspan="6">
+
+</table>
+
+</div>	<!-- counter -->
+
+<div id="helppage" class="nokey fullpage" style="display:none;">
+<div>
+<h1><center> SDGRemote SDG2000x help page </h1>
+
+<p>If you are not expecting to see this, the ?view= options would have left you with nothing to see. Try <a href="view=all">?view=all</a>.
+<p>
+More information on this web UI will be available at my <a target="_blank" href="https://github.com/penfold42/SDGRemote">Github</a> page
+
+<p><h2>Keyboard shortcuts</h2></p>
+<table border="1">
+<tr><th colspan="2">View options
+<tr><th>0-9 - .<td>Numeric Keyboard
+<tr><th>&nbsp;! @ # $ % ^&nbsp;<td>Menu soft keys
+<tr><th>H<td>Show/Hide Help
+<tr><th>T<td>Show/Hide SCPI Tools
+<tr><th>F<td>Show/Hide Frequency Counter
+<tr><th>R<td>Enable/Disable Refresh
+<tr><th>K<td>Enable/Disable Key Beep
+<tr><th>&uarr; &darr; &crarr;<td>Knob Clockwise, CounterCW, Press
+<tr><th>&larr; &rarr;<td>Arrow keys below Knob
+<tr><th>M S B<td>Mod Sweep Burst
+<tr><th>P U D<td>Para-meter Utility Store/Recall
+<tr><th>&nbsp;W C&nbsp;<td>Waveform Ch1/Ch2
+<tr><th>[ ]<td>Output1, Output2
+<tr><th>{ }<td>Trigger1, Trigger2
+
+</table>
+
+<p><h2>URL parameters</h2></p>
+<table>
+<tr><th colspan="2">View options
+<tr><td><a target="_blank" href="?view=frontpanel">?view=frontpanel</a><td>just the front panel
+<tr><td><a target="_blank" href="?view=counter">?view=counter</a><td>just the frequency counter
+<tr><td><a target="_blank" href="?view=tools">?view=tools</a><td>just the scpi command panel
+<tr><td><a target="_blank" href="?view=help">?view=help</a><td>This help page
+<tr><td><a target="_blank" href="?view=tools&view=counter">?view=tools&view=counter</a><td>scpi tools and frequency counter
+<tr><td><a target="_blank" href="?view=all">?view=all</a><td>all panels (except this help)
+<tr><td><a target="_blank" href="?scpiheight=250">?scpiheight=250</a><td>SCPI resault are height in pixels
+<tr><td><a target="_blank" href="?view=tools&scpiheight=400">?view=tools&scpiheight=400</a><td>just a big scpi command panel 
+
+</table>
+<table>
+<tr><th colspan="2">Connection options
+<tr><td><a target="_blank" href="?device=siglent.home">?device=&lt;siglent-host&gt;</a><td>The IP or hostname of the SDG
+<tr><td><a target="_blank" href="?gateway=siglent.home">?gateway=&lt;gateway-host&gt;</a><td>The IP or hostname of the http to tcp gateway
+</table>
+
+<p><h2>External links to Siglent's collateral</h2></p>
+<table>
+<tr><td> <a target="_blank" href="https://siglentna.com/resources/documents/waveform-generators/#sdg2000x-series">documentation page</a>
+<tr><td><a target="_blank" href="https://siglentna.com/wp-content/uploads/dlm_uploads/2023/08/SDG_Programming-Guide_PG02-E05B.pdf"> programming guide</a>
+</table>
+
+</div>	<!-- help page 90% -->
+
+</div>	<!-- help page outer -->
+
+<div id="disclaimer" class="fullpage nokey" style="display:none;">
+<div>
+<h1><center> SDGRemote disclaimer </h1>
+
+<table>
+<tr class="checkrow">
+<td> <input type="checkbox" class="cb">
+<td>
+<p>The author is not affiliated with Siglent who have no knowledge of this software.
+<p>The author reserves the right to modify these terms at any time.
+<p>No person or entity may make direct or in-direct commerical gain from this software without prior agreement. This includes but is not limited to selling it, hosting it, supporting it, or incorporating it in another product or offering.
+
+<tr class="checkrow">
+<td><input type="checkbox" class="cb">
+<td>
+<p>This software not only monitors the device but will initate commands that could <b>damage</b> your device, other equipment and circuitry attached to it.
+<p>penfold42 will not be liable for any direct or in-direct consequences of your use of this software.
+<p> This comes with no warranty, guarantees or commitment of support implied or otherwise.
+
+<tr class="checkrow">
+<td><input type="checkbox" class="cb">
+<td><p>The user assumes all risk in the use of this software.
+</table>
+
+<p>
+More information on this software will be available at my <a target="_blank" href="https://github.com/penfold42/SDGRemote">Github</a> page
+
+<hr>
+<div align="right">
+<p>
+The use of this software requires you agree to these terms.
+<br>Do you agree to these terms?
+
+<p>
+<button class="green" id="accept">Yes, I do</button>
+<button class="red" id="decline">No, show demo</button>
+</div>
+
+</div>	<!-- disclaimer 90% -->
+</div>	<!-- disclaimer  -->
+
+</div>	<!-- whole page -->
+
+</body>
+</html>
+

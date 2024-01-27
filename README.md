@@ -23,3 +23,4 @@ Frequency Counter with:
 http://<webhost>/sdg.html?device=<siggenname>&view=all
 Shows both interfaces on the same page
 
+

@@ -1,28 +1,38 @@
-These instructions assume you're using apache2 webserver on ubuntu.
+Quick start instructions using the minimal python websockets web server
 
+#) install python3 on your host
 
-#) install and configure apache
-sudo apt-install apache2
-sudo ln -s /etc/apache2/mods-available/cgi.load /etc/apache2/mods-enabled/
-sudo systemctl restart apache2
+#) install python dependencies
+pip3 install pyvisa pyvisa-py websockets
 
-#) install perl CGI dependency
-sudo apt install libcgi-pm-perl
-
-#) download from github
-cd $HOME
+#) download SDGRemote from github
+cd $HOME (or %HOMEPATH% on windows)
 git clone https://github.com/penfold42/SDGRemote
-
-#) copy files to webserver
 cd SDGRemote
-sudo mkdir /var/www/html/sdg
-sudo cp -a html/* /var/www/html/sdg/
-sudo cp cgi-bin/sdgproxy.pl /usr/lib/cgi-bin/
 
 #) configure your siglent device name/ip
-edit /var/www/html/sdg/sdg-devices.json
+edit server/sdgproxy.py
+Here is the sample section - replace siggen.home with device name/ip
+You can also get the server to listen on a specific IP and change the port below
 
-#) cross your fingers and enjoy:
-browse to http://<webserver>/sdg/
+# List of target devices.
+# Only tested with TCP sockets at present
+devices = {
+    "siggen.home": 'TCPIP0::siggen.home::5025::SOCKET',
+    "pi4-nc": 'TCPIP0::pi4.home::5025::SOCKET',
+}
+
+# put your default here - must be in devices list above
+currentDevice = "siggen.home"
+
+# web server configuration
+listenOn = ""
+#listenOn = "127.0.0.1"
+listenPort = 6789
+
+#) start the server
+python3 server/sdgproxy.py
+
+point your browser at http://<webserver>:6789/
 
 

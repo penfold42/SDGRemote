@@ -155,7 +155,7 @@ button:disabled {
   padding-right: 10px;
 }
 
-#banner2 td {
+#banner,#banner2 td {
   font-family: monospace;
   font-size: 20px;
   text-align: center;
@@ -167,7 +167,7 @@ button:disabled {
   margin-left: 3px;
   margin-right: 3px;
 }
-button#txbut {
+button#txbut, button#rxbut {
   border-color: black;
   box-shadow: none;
   border-radius: 10px;
@@ -373,9 +373,12 @@ td#outputsimg {
 
 .scpireply {
   resize: none;
-  width: 600px;
+  width: 580px;
   overflow-wrap: break-word;
   word-break: break-all;
+}
+.Zscpireplies {
+  width: 600px;
 }
 
 #csv {
@@ -632,16 +635,19 @@ div.fullpage div {
 <tr>
 <td><img src="siglent-logo.png" width="109px">
 <td id="model" width="100%">SDG?????
+<td>Users:<span id=userCount>0</span></td>
 <td><select id="devices">
 </table>
 
 <td id="banner2" colspan="2">
 <table align="right">
+<tr>
 <td><button id="helpBut" name="INT_SHOWHELP"><u>H</u>elp</button></td>
 <td><button id="toolsBut" name="INT_SHOWTOOLS"><u>T</u>ools</button></td>
 <td><button id="counterBut" name="INT_SHOWCOUNTER"><u>F</u>reqCtr</button></td>
 <td><button id="refresh" name="INT_REFRESH"><u>R</u>efresh</button></td>
 <td><button id="beep" name="INT_BEEP">&#9835;</button></td>
+<td><button id="rxbut" disabled>RX</button></td>
 <td><button id="txbut" disabled>TX</button></td>
 </table>
 
@@ -907,8 +913,8 @@ More information on this web UI will be available at my <a target="_blank" href=
 </table>
 <table>
 <tr><th colspan="2">Connection options
-<tr><td><a target="_blank" href="?device=siglent.home">?device=&lt;siglent-host&gt;</a><td>The IP or hostname of the SDG
-<tr><td><a target="_blank" href="?gateway=siglent.home">?gateway=&lt;gateway-host&gt;</a><td>The IP or hostname of the http to tcp gateway
+<tr><td><a target="_blank" href="?device=siglent.home">?device=&lt;siglent-host&gt;</a><td>Label of the SDG device in sdgproxy.py
+<tr><td><a target="_blank" href="?gateway=siglent.home">?gateway=&lt;gateway-host&gt;</a><td>The URL of the websocket to tcp gateway
 </table>
 
 <p><h2>External links to Siglent's collateral</h2></p>

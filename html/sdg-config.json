@@ -5,6 +5,7 @@
 "idleTimeout": 10,
 "macrosUpdateHistory": true,
 "scpiResultsAppend": true,
-"scpiHeightPx": 100
+"scpiHeightPx": 100,
+"ZZZwsGateway": "ws://pi4.home:6789"
 }
 

@@ -48,6 +48,7 @@ Look and feel inspired by a real counter. Buttons for:
 
 ### [SCPI commands](https://penfold42.github.io/SDGRemote/?view=tools&scpiheight=300)
 - Arbitrary SCPI commands with responses viewed
+- Command history with cursor up/down
 - plain text and a property/value table views
 
 ### [Quick Help](https://penfold42.github.io/SDGRemote/?view=help)

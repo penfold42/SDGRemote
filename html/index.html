@@ -115,6 +115,10 @@ button:disabled {
   animation: staleanim 2s forwards;
 }
 
+.newimg {
+  filter: brightness(120%);
+}
+
 .green {
   background-color: var(--ledButGreen);
 }
@@ -773,7 +777,12 @@ div.fullpage div {
 	<td width="10%"><button class="scpibutton hpbeige nokey" name="INT_SCPI_SEND">Send
 	<tr>
 	<td colspan="3" id="scpireplies" class="vt100" onclick="setFocus('42');">
-	<td valign="top"><button class="scpibutton hpbeige nokey" name="INT_SCPI_CLEAR">Clear
+	<td valign="top">
+		<table>
+		<tr><td><button class="scpibutton hpbeige nokey" name="INT_SCPI_CLEAR">Clear
+		<tr><td><button class="scpibutton hpbeige nokey" name="INT_SCPI_COPY">Copy
+		</table>
+
 	</table>
 	</div>
 

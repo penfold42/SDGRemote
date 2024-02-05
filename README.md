@@ -20,8 +20,10 @@ This is based on pyVISA to communicate with the device using SCPI over TCP socke
 
 Let me know in the Issues list if there's demand for either of these and if you can help with testing
 
-## Demos
+## Features
 I have a "live" demo hosted at https://penfold42.github.io/SDGRemote
+
+The section headings launch a demo of that area.
 
 ### [Virtual Front Panel](https://penfold42.github.io/SDGRemote/?view=frontpanel)
 

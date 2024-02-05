@@ -43,7 +43,6 @@ MIME_TYPES = {
 
 rm = pyvisa.ResourceManager()
 
-logging.basicConfig()
 
 USERS = set()
 
@@ -81,7 +80,7 @@ async def crapWebServer(server_root, path, request_headers):
     # Validate the path
     if os.path.commonpath((server_root, full_path)) != server_root or \
             not os.path.exists(full_path) or not os.path.isfile(full_path):
-        print("HTTP GET {} 404 NOT FOUND".format(path))
+        logging.warning("HTTP GET {} 404 NOT FOUND".format(path))
         return HTTPStatus.NOT_FOUND, [], b'404 NOT FOUND'
 
     # Guess file content type
@@ -92,7 +91,7 @@ async def crapWebServer(server_root, path, request_headers):
     # Read the whole file into memory and send it out
     body = open(full_path, 'rb').read()
     response_headers.append(('Content-Length', str(len(body))))
-    print("HTTP GET {} 200 OK".format(path))
+    logging.info("HTTP GET {} 200 OK".format(path))
     return HTTPStatus.OK, response_headers, body
 
 def setDevice(key):
@@ -109,10 +108,10 @@ def setDevice(key):
         cachedTime.clear()
         return (True)
     else:
-        print ("unknown device " + key)
-        print ("I know of:")
+        logging.error ("unknown device " + key)
+        logging.error ("I know of:")
         for d in devices:
-            print (d + ": \t" + devices[d])
+            logging.error (d + ": \t" + devices[d])
         return (False)
 
 
@@ -123,7 +122,7 @@ def ledHack_event(event):
     return json.dumps({"type": "ledHack", "value": event["argument"]})
 
 def wsError(msg):
-    print (msg);
+    logging.error (msg);
     return( json.dumps({ "type": "error", "value": msg }));
 
 def getDevices_event():
@@ -193,8 +192,8 @@ def scpi_visa(event):
             cachedTime.clear()
 
         case _:
-            msgType = "none"
-            data = "blah"
+            msgType = "error"
+            data = "unknown action"
 
     return (json.dumps({
             "type": msgType,
@@ -239,8 +238,7 @@ async def sdgproxy(websocket):
                 case _:
                     logging.error("unsupported event: %s", event)
     except Exception as e:
-        print ("WS exception: ", end="")
-        print (str(e))
+        logging.error ("WS exception: " + str(e))
 
     finally:
         # Unregister user
@@ -272,6 +270,7 @@ async def main():
         await asyncio.Future()  # run forever
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.WARN)
     signal.signal(signal.SIGINT, signal_handler)
     try:
         asyncio.run(main())

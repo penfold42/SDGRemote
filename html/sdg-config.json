@@ -3,6 +3,7 @@
 "smallUpdateCycles": 3,    
 "longUpdateCycles": 7200, 
 "idleTimeout": 10,
+"highlightNew": false,
 "macrosUpdateHistory": true,
 "scpiResultsAppend": true,
 "scpiHeightPx": 100,

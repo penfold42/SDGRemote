@@ -145,6 +145,7 @@ def scpi_visa(event):
     msgType = ""
     data = ""
     results = []
+    t = 0
     match action:
         case "scpiQuery":
             params = param.split('\n')
@@ -179,8 +180,10 @@ def scpi_visa(event):
                 else:
                     cachedHitCount[key] = 1
             else:
+                t = time.time()
                 inst.write(param)
                 data = base64.b64encode(inst.read_raw()).decode();
+                t = time.time()-t
                 cachedReplies[key] = data
                 cachedTime[key] = time.time()
 
@@ -199,7 +202,8 @@ def scpi_visa(event):
             "type": msgType,
             "value": data,
             "updateResponse": updateResponse,
-            "currentDevice": currentDevice
+            "currentDevice": currentDevice,
+            "time": int(t*1000)
         }))
 
 

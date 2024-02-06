@@ -93,7 +93,9 @@ button {
     }
 }
 @media (hover: hover) {
-  button:active {
+  button:active, button.active {
+    border-style: inset outset outset inset;
+    border: 2px solid black;
     transition-delay: 0s;
     transition-duration: 0.1s;
     box-shadow: -3px 3px 6px 0 rgba(0,0,0,0.2); 
@@ -331,6 +333,11 @@ td#outputsimg {
   padding: 5px;
 }
 
+optgroup {
+  background: black;
+  font-weight: bold;
+  color: cyan;
+}
 
 #scpitools {
   width: 900px;
@@ -352,6 +359,11 @@ td#outputsimg {
   padding-right: 10px;
   width: 60px;
 }
+#csvbutton {
+  width:unset;
+  margin: 2px;
+  float: right;
+}
 
 .scpitablediv {
   overflow-x:auto;
@@ -364,9 +376,15 @@ td#outputsimg {
   width: 100%;
 }
 
+#scpicopyclear {
+  padding: 0;
+}
+
+
 #scpi {
   color:black;
   display:block;
+  width: 680px;
 }
 .vt100 {
   font-size: 16px;
@@ -377,19 +395,20 @@ td#outputsimg {
 
 .scpireply {
   resize: none;
-  width: 580px;
+  width: 590px;
+  margin-left: 5px;
   overflow-wrap: break-word;
   word-break: break-all;
 }
-.Zscpireplies {
+#scpireplies {
   width: 600px;
 }
 
 #csv {
   vertical-align: top;
+  width: 200px;
 }
 #csv table {
-  width: 200px;
   background-color: DarkGrey;
   font-family: monospace;
   text-align: center;
@@ -712,7 +731,7 @@ div.fullpage div {
 	<tr>
 	<td>
 	<td><button name="KB_KNOB_LEFT">CCW<br>&darr;</button></td>
-	<td>
+	<td id="wheel">
 	</table>
 </td>
 
@@ -774,10 +793,10 @@ div.fullpage div {
 			<option value="1">Ch1
 			<option value="2">Ch2
 		</select>
-	<td width="10%"><button class="scpibutton hpbeige nokey" name="INT_SCPI_SEND">Send
+	<td align="center" width="10%"><button class="scpibutton hpbeige nokey" name="INT_SCPI_SEND">Send
 	<tr>
 	<td colspan="3" id="scpireplies" class="vt100" onclick="setFocus('42');">
-	<td valign="top">
+	<td valign="top" id="scpicopyclear">
 		<table>
 		<tr><td><button class="scpibutton hpbeige nokey" name="INT_SCPI_CLEAR">Clear
 		<tr><td><button class="scpibutton hpbeige nokey" name="INT_SCPI_COPY">Copy
@@ -788,6 +807,9 @@ div.fullpage div {
 
 <td id="csv" colspan="2" align="center">
 	<div tabindex="0" id="43" class="scpitablediv nokey" onclick="setFocus('43');">
+		<button class="scpibutton hpbeige nokey"
+			id="csvbutton"
+			name="INT_SCPI_COPYCSV">Copy&nbsp;CSV</button>
 		<table id="csvtable" class="nokey">
 		</table>
 	</div>

@@ -93,7 +93,9 @@ button {
     }
 }
 @media (hover: hover) {
-  button:active {
+  button:active, button.active {
+    border-style: inset outset outset inset;
+    border: 2px solid black;
     transition-delay: 0s;
     transition-duration: 0.1s;
     box-shadow: -3px 3px 6px 0 rgba(0,0,0,0.2); 
@@ -113,6 +115,10 @@ button:disabled {
 
 .staleinfo {
   animation: staleanim 2s forwards;
+}
+
+.newimg {
+  filter: brightness(120%);
 }
 
 .green {
@@ -155,7 +161,7 @@ button:disabled {
   padding-right: 10px;
 }
 
-#banner2 td {
+#banner,#banner2 td {
   font-family: monospace;
   font-size: 20px;
   text-align: center;
@@ -167,7 +173,7 @@ button:disabled {
   margin-left: 3px;
   margin-right: 3px;
 }
-button#txbut {
+button#txbut, button#rxbut {
   border-color: black;
   box-shadow: none;
   border-radius: 10px;
@@ -327,6 +333,11 @@ td#outputsimg {
   padding: 5px;
 }
 
+optgroup {
+  background: black;
+  font-weight: bold;
+  color: cyan;
+}
 
 #scpitools {
   width: 900px;
@@ -348,6 +359,11 @@ td#outputsimg {
   padding-right: 10px;
   width: 60px;
 }
+#csvbutton {
+  width:unset;
+  margin: 2px;
+  float: right;
+}
 
 .scpitablediv {
   overflow-x:auto;
@@ -360,9 +376,15 @@ td#outputsimg {
   width: 100%;
 }
 
+#scpicopyclear {
+  padding: 0;
+}
+
+
 #scpi {
   color:black;
   display:block;
+  width: 680px;
 }
 .vt100 {
   font-size: 16px;
@@ -373,16 +395,20 @@ td#outputsimg {
 
 .scpireply {
   resize: none;
-  width: 600px;
+  width: 590px;
+  margin-left: 5px;
   overflow-wrap: break-word;
   word-break: break-all;
+}
+#scpireplies {
+  width: 600px;
 }
 
 #csv {
   vertical-align: top;
+  width: 200px;
 }
 #csv table {
-  width: 200px;
   background-color: DarkGrey;
   font-family: monospace;
   text-align: center;
@@ -632,16 +658,19 @@ div.fullpage div {
 <tr>
 <td><img src="siglent-logo.png" width="109px">
 <td id="model" width="100%">SDG?????
-<td><select id="devices" onChange="onChangeDevice(this)">
+<td>Users:<span id=userCount>0</span></td>
+<td><select id="devices">
 </table>
 
 <td id="banner2" colspan="2">
 <table align="right">
+<tr>
 <td><button id="helpBut" name="INT_SHOWHELP"><u>H</u>elp</button></td>
 <td><button id="toolsBut" name="INT_SHOWTOOLS"><u>T</u>ools</button></td>
 <td><button id="counterBut" name="INT_SHOWCOUNTER"><u>F</u>reqCtr</button></td>
 <td><button id="refresh" name="INT_REFRESH"><u>R</u>efresh</button></td>
 <td><button id="beep" name="INT_BEEP">&#9835;</button></td>
+<td><button id="rxbut" disabled>RX</button></td>
 <td><button id="txbut" disabled>TX</button></td>
 </table>
 
@@ -702,7 +731,7 @@ div.fullpage div {
 	<tr>
 	<td>
 	<td><button name="KB_KNOB_LEFT">CCW<br>&darr;</button></td>
-	<td>
+	<td id="wheel">
 	</table>
 </td>
 
@@ -764,15 +793,23 @@ div.fullpage div {
 			<option value="1">Ch1
 			<option value="2">Ch2
 		</select>
-	<td width="10%"><button class="scpibutton hpbeige nokey" name="INT_SCPI_SEND">Send
+	<td align="center" width="10%"><button class="scpibutton hpbeige nokey" name="INT_SCPI_SEND">Send
 	<tr>
 	<td colspan="3" id="scpireplies" class="vt100" onclick="setFocus('42');">
-	<td valign="top"><button class="scpibutton hpbeige nokey" name="INT_SCPI_CLEAR">Clear
+	<td valign="top" id="scpicopyclear">
+		<table>
+		<tr><td><button class="scpibutton hpbeige nokey" name="INT_SCPI_CLEAR">Clear
+		<tr><td><button class="scpibutton hpbeige nokey" name="INT_SCPI_COPY">Copy
+		</table>
+
 	</table>
 	</div>
 
 <td id="csv" colspan="2" align="center">
 	<div tabindex="0" id="43" class="scpitablediv nokey" onclick="setFocus('43');">
+		<button class="scpibutton hpbeige nokey"
+			id="csvbutton"
+			name="INT_SCPI_COPYCSV">Copy&nbsp;CSV</button>
 		<table id="csvtable" class="nokey">
 		</table>
 	</div>
@@ -907,8 +944,8 @@ More information on this web UI will be available at my <a target="_blank" href=
 </table>
 <table>
 <tr><th colspan="2">Connection options
-<tr><td><a target="_blank" href="?device=siglent.home">?device=&lt;siglent-host&gt;</a><td>The IP or hostname of the SDG
-<tr><td><a target="_blank" href="?gateway=siglent.home">?gateway=&lt;gateway-host&gt;</a><td>The IP or hostname of the http to tcp gateway
+<tr><td><a target="_blank" href="?device=siglent.home">?device=&lt;siglent-host&gt;</a><td>Label of the SDG device in sdgproxy.py
+<tr><td><a target="_blank" href="?gateway=siglent.home">?gateway=&lt;gateway-host&gt;</a><td>The URL of the websocket to tcp gateway
 </table>
 
 <p><h2>External links to Siglent's collateral</h2></p>

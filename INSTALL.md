@@ -8,6 +8,7 @@ Very little!
 
 This has been tested on:
 - Windows 11 + Python 3.11.2
+- Windows 10 + Python 3.12.1
 - Debian GNU/Linux 12 + Python 3.11.2
 - Rocky Linux 8.9 + Python 3.8.17
 
@@ -95,11 +96,12 @@ point your browser at http://<webserver>:6789/
 Can you ping the signal gernerator?
 
 Can you telnet or netcat to port 5025?
-- The device will only respond to the first connection. Subsequent simultaneous connections will actuall connect, you no replies will come.
+- The device will only respond to the first connection. Subsequent simultaneous connections will actually connect, but no replies will come.
 - Make sure no other hung or forgotten process is connected to the device
 
-
-
+Do you have a firewall blocking access? The proxy will:
+- make an outbound connection to your siglent device
+- listen on a port for your browser to connect to
 
 # Configurable options.
 

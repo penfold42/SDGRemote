@@ -146,57 +146,56 @@ def scpi_visa(event):
     data = ""
     results = []
     t = 0
-    match action:
-        case "scpiQuery":
-            params = param.split('\n')
-            for x in params:
+    if (action == "scpiQuery"):
+        params = param.split('\n')
+        for x in params:
 
-                if (x == "rosc?"):
-                    print (time.time())
-                    print (cachedHitCount)
+            if (x == "rosc?"):
+                print (time.time())
+                print (cachedHitCount)
 
-                if (len(x)):
-                    key = x
-                    if (key in cachedTime) and (cachedTime[key] > ageLimit):
-                        reply = cachedReplies[key]
-                        if (key in cachedHitCount):
-                            cachedHitCount[key] += 1
-                        else:
-                            cachedHitCount[key] = 1
+            if (len(x)):
+                key = x
+                if (key in cachedTime) and (cachedTime[key] > ageLimit):
+                    reply = cachedReplies[key]
+                    if (key in cachedHitCount):
+                        cachedHitCount[key] += 1
                     else:
-                        reply = inst.query(x)
-                        cachedReplies[key] = reply
-                        cachedTime[key] = time.time()
-                    results.append (reply)
-            data = "\n".join(results)
-            msgType = "scpi"
-
-        case "scdp":
-            key = "scdp"
-            if (key in cachedTime) and (cachedTime[key] > ageLimit):
-                data = cachedReplies[key]
-                if (key in cachedHitCount):
-                    cachedHitCount[key] += 1
+                        cachedHitCount[key] = 1
                 else:
-                    cachedHitCount[key] = 1
+                    reply = inst.query(x)
+                    cachedReplies[key] = reply
+                    cachedTime[key] = time.time()
+                results.append (reply)
+        data = "\n".join(results)
+        msgType = "scpi";
+
+    elif (action == "scdp"):
+        key = "scdp"
+        if (key in cachedTime) and (cachedTime[key] > ageLimit):
+            data = cachedReplies[key]
+            if (key in cachedHitCount):
+                cachedHitCount[key] += 1
             else:
-                t = time.time()
-                inst.write(param)
-                data = base64.b64encode(inst.read_raw()).decode();
-                t = time.time()-t
-                cachedReplies[key] = data
-                cachedTime[key] = time.time()
-
-            msgType = "scdp"
-
-        case "scpiCmd":
+                cachedHitCount[key] = 1
+        else:
+            t = time.time()
             inst.write(param)
-            msgType = "scpi"
-            cachedTime.clear()
+            data = base64.b64encode(inst.read_raw()).decode();
+            t = time.time()-t
+            cachedReplies[key] = data
+            cachedTime[key] = time.time()
 
-        case _:
-            msgType = "error"
-            data = "unknown action"
+        msgType = "scdp"
+
+    elif (action == "scpiCmd"):
+        inst.write(param)
+        msgType = "scpi"
+        cachedTime.clear()
+
+    else:
+        msgType = "error"
+        data = "unknown action"
 
     return (json.dumps({
             "type": msgType,
@@ -218,29 +217,32 @@ async def sdgproxy(websocket):
         async for message in websocket:
             event = json.loads(message)
 
-            match event["action"]:
-                case "scpiCmd" | "scpiQuery" | "scdp":
-                    try:
-                        visa = scpi_visa(event)
-                        if (event["updateResponse"] == True):
-                            await websocket.send( visa );
-                        else:
-                            websockets.broadcast(USERS, visa );
-                    except Exception as e:
-                        await websocket.send( wsError("VISA: " + str(e)))
+            action = event["action"]
+            if ( (action == "scpiCmd")
+                or (action == "scpiQuery")
+                or (action == "scdp") ) :
+                try:
+                    visa = scpi_visa(event)
+                    if (event["updateResponse"] == True):
+                        await websocket.send( visa );
+                    else:
+                        websockets.broadcast(USERS, visa );
+                except Exception as e:
+                    await websocket.send( wsError("VISA: " + str(e)))
 
-                case "getDevices":
-                        websockets.broadcast(USERS, getDevices_event() )
+            elif (action == "getDevices"):
+                    websockets.broadcast(USERS, getDevices_event() )
 
-                case "setDevice":
-                    if setDevice(event["argument"]):
-                        websockets.broadcast(USERS, getDevices_event() )
+            elif (action == "setDevice"):
+                if setDevice(event["argument"]):
+                    websockets.broadcast(USERS, getDevices_event() )
 
-                case "ledHack":
-                        websockets.broadcast(USERS, ledHack_event(event) )
+            elif (action == "ledHack"):
+                    websockets.broadcast(USERS, ledHack_event(event) )
 
-                case _:
-                    logging.error("unsupported event: %s", event)
+            else:
+                logging.error("unsupported event: %s", event)
+
     except Exception as e:
         logging.error ("WS exception: " + str(e))
 
@@ -274,6 +276,11 @@ async def main():
         await asyncio.Future()  # run forever
 
 if __name__ == "__main__":
+
+    if not sys.version_info >= (3, 8):
+        print("Python3 version >= 3.8 is required")
+        exit(-1)
+
     logging.basicConfig(level=logging.WARN)
     signal.signal(signal.SIGINT, signal_handler)
     try:

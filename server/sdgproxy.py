@@ -20,11 +20,13 @@ from urllib.parse import unquote
 devices = {
 #      Label            pyVISA path
     "siggen.home":  'TCPIP0::siggen.home::5025::SOCKET',
+    "siggenIP":     'TCPIP0::10.0.0.106::5025::SOCKET',
     "pi4-nc":       'TCPIP0::pi4.home::5025::SOCKET',
 }
 
 # put your default here - must be in devices list above
-currentDevice = "siggen.home"
+# Leave blank for first entry
+currentDevice = ""
 
 # web server configuration
 listenOn = ""
@@ -37,7 +39,9 @@ MIME_TYPES = {
     "html": "text/html",
     "js": "text/javascript",
     "css": "text/css",
-    "ico": "image/x-icon"
+    "ico": "image/x-icon",
+    "png": "image/png",
+    "woff2": "font/woff2"
 }
 
 
@@ -120,6 +124,9 @@ def users_event():
 
 def ledHack_event(event):
     return json.dumps({"type": "ledHack", "value": event["argument"]})
+
+def ping_event(event):
+    return json.dumps({"type": "pong", "value": event["argument"]})
 
 def wsError(msg):
     logging.error (msg);
@@ -240,6 +247,9 @@ async def sdgproxy(websocket):
             elif (action == "ledHack"):
                     websockets.broadcast(USERS, ledHack_event(event) )
 
+            elif (action == "ping"):
+                    await websocket.send(ping_event(event) )
+
             else:
                 logging.error("unsupported event: %s", event)
 
@@ -267,6 +277,7 @@ async def main():
     ):
         myHost = socket.gethostname()
 
+    print ("Current siglent device label is " + currentDevice)
     print ("Point your web browser to:")
     print (f'http://{myHost}:{listenPort}/')
 
@@ -283,6 +294,10 @@ if __name__ == "__main__":
 
     logging.basicConfig(level=logging.WARN)
     signal.signal(signal.SIGINT, signal_handler)
+
+    if not currentDevice:
+        currentDevice = next(iter(devices))
+
     try:
         asyncio.run(main())
     except Exception as e:

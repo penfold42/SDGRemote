@@ -49,7 +49,8 @@ Look and feel inspired by a real counter. Buttons for:
 - low pass filter, AC/DC
 
 ### [SCPI commands](https://penfold42.github.io/SDGRemote/?view=tools&scpiheight=300)
-- Arbitrary SCPI commands with responses viewed
+- Arbitrary SCPI commands with responses displayed
+- Predefined "macros" for common functions
 - Command history with cursor up/down
 - plain text and a property/value table views
 

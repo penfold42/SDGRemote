@@ -19,6 +19,7 @@ function setFocus(e) {
 
 :root {
   --ledButGreen: #ACE4A3;
+  --ledButYellow: #d0d000;
   --ledButRed: IndianRed;
   --ledButBeige: #abb9c2;
 }
@@ -42,7 +43,7 @@ body {
 }
 
 
-#frontpanel {
+.panel,#logspanel,#frontpanel {
   width: 900px;
   margin: auto;
 
@@ -50,17 +51,13 @@ body {
   border: 6px;
   border-style: inset;
   border-color: #d2d1cf;
+  background-color:#d2d1cf;
 }
 
 #frontpanel table {
   background-color:#d2d1cf;
-  border: 0px solid;
+  ZZborder: 0px solid;
   border-collapse: collapse;
-}
-
-#frontpanel table td {
-  border: 0px solid;
-  border-color: black;
 }
 
 button {
@@ -93,7 +90,7 @@ button {
     }
 }
 @media (hover: hover) {
-  button:active, button.active {
+  button:enabled:active, button.active {
     border-style: inset outset outset inset;
     border: 2px solid black;
     transition-delay: 0s;
@@ -138,21 +135,37 @@ button:disabled {
   color:#5bd7d7;
 }
 
-#banner img {
-  background-color: #142d4d;
+#logspanel {
 }
 
-#banner table {
-  width: 100%;
-  text-align: center;
+#errorlogs {
+  width: 850px;
+}
+.errorlog {
+  resize: none;
+  width: 800px;
+  margin-left: 5px;
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+
+.banner table {
+  Zwidth: 100%;
+  border-spacing: 0px;
   padding-top: 0px;
   padding-bottom: 0px;
-  border: 0px solid black;
+  Zbackground-color: cyan;
 }
-#banner table td {
-  border: 0px solid black;
+.banner table td {
+  vertical-align: middle;
+  text-align: center;
 }
-#model {
+
+.banner img {
+  display: block;
+}
+
+.banner td span {
   font-family: Roboto,sans-serif;
   font-size: 18px;
   font-weight: bold;
@@ -161,32 +174,45 @@ button:disabled {
   padding-right: 10px;
 }
 
-#banner,#banner2 td {
-  font-family: monospace;
-  font-size: 20px;
-  text-align: center;
-}
-#banner2 button{
+.banner button {
   border-radius: 5px;
   padding-left: 2px;
   padding-right: 2px;
   margin-left: 3px;
   margin-right: 3px;
 }
+
+button#txbut.green, button#rxbut.red {
+  color: var(--ledButRed);
+}
+button#txbut.green, button#rxbut.yellow {
+  color: var(--ledButYellow);
+}
+button#txbut.green, button#rxbut.green {
+  color: var(--ledButGreen);
+}
 button#txbut, button#rxbut {
   border-color: black;
+  background-color: black;
   box-shadow: none;
-  border-radius: 10px;
   border-style: solid;
+  cursor: inherit;
 }
-
-#scopeview button {
-  width: 100%;
-  color:white;
-  background-color:#6e6e75;
-  border-radius: 10px;
-  padding-top:5px;
-  padding-bottom:5px;
+button#txbut {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-right: 0px solid;
+  margin-right: 0px;
+}
+button#rxbut {
+  margin-left: 0px;
+  border-left: 0px solid;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 #screenbmp {
@@ -194,15 +220,11 @@ button#txbut, button#rxbut {
   border: 5px;
   border-color: #d2d1cf;
   border-style: inset;
-}
-
-td img {
-  display:block;
   background-color:black;
+  display:block;
 }
 
-
-#funcbuttons  {
+#funcbuttons {
   border-radius: 2px;
   border: 2px;
   border-color: #d2d1cf;
@@ -215,6 +237,16 @@ td img {
   padding-top: 5px;
   padding-bottom: 2px;
 }
+
+#funcbuttons button {
+  width: 100%;
+  color:white;
+  background-color:#6e6e75;
+  border-radius: 10px;
+  padding-top:5px;
+  padding-bottom:5px;
+}
+
 
 #numpad table {
   background-color:#a8a8a8;
@@ -292,7 +324,7 @@ td img {
 }
 
 #outputs td {
-  border: 2px;
+  border: 0px;
   border-style: solid;
   border-radius: 8px;
 }
@@ -648,31 +680,44 @@ div.fullpage div {
 
 <script type="text/javascript" src="sdg.js"></script>
 
+
 <div id="wholepage">
-<div id="frontpanel" style="display:none;">
+
+<div class="panel banner" id="banner" style="display:block;">
 <table align="center">
 
 <tr>
-<td id="banner">
-<table>
-<tr>
-<td><img src="siglent-logo.png" width="109px">
-<td id="model" width="100%">SDG?????
-<td>Users:<span id=userCount>0</span></td>
+<td><img id="logo" src="siglent-logo.png" height="24px">
+<td width="100%"><span id="model">SDG?????</span>
+<td><span>Users:<span id=userCount>0</span></span></td>
+<td style="padding:0;"><button id="txbut" disabled>T</button></td>
+<td style="padding:0;"><button id="rxbut" disabled>R</button></td>
 <td><select id="devices">
-</table>
-
-<td id="banner2" colspan="2">
-<table align="right">
-<tr>
 <td><button id="helpBut" name="INT_SHOWHELP"><u>H</u>elp</button></td>
+<td><button id="awgBut" name="INT_SHOWAWG"><u>A</u>wg</button></td>
 <td><button id="toolsBut" name="INT_SHOWTOOLS"><u>T</u>ools</button></td>
 <td><button id="counterBut" name="INT_SHOWCOUNTER"><u>F</u>reqCtr</button></td>
 <td><button id="refresh" name="INT_REFRESH"><u>R</u>efresh</button></td>
 <td><button id="beep" name="INT_BEEP">&#9835;</button></td>
-<td><button id="rxbut" disabled>RX</button></td>
-<td><button id="txbut" disabled>TX</button></td>
+<td><button id="logsBut" name="INT_TOGGLELOGS"><u>L</u>ogs</button></td>
+
 </table>
+</div>
+
+<div id="logspanel" class="scpitablediv nokey" style="display:none;">
+	<table width="100%" border="3">
+	<tr>
+	<td id="errorlogs" class="vt100">
+	<div class="nokey errorlog">Websocket errors are logged here</div>
+	<td valign="top" class="banner">
+	    <button class="scpibutton hpbeige" id="logsClose" name="INT_TOGGLELOGS">Close</button>
+	<br><button class="scpibutton hpbeige" id="logsCopy" name="INT_COPYLOGS">Copy</button>
+	<br><button class="scpibutton hpbeige" id="logsClear" name="INT_CLEARLOGS">Clear</button>
+	</table>
+</div>
+
+<div id="frontpanel" style="display:none;">
+<table align="center">
 
 <tr>
 <td id="scopeview" rowspan="2">
@@ -841,7 +886,7 @@ div.fullpage div {
 	<span id="referenceLed">Refr</span>
 	<span id="deviationLed">ppb</span>
 	<span id="trigLevLed">Trig</span>
-	<span id="a1">Ch2</span>
+	<span id="AverageLed">Avg</span>
 	<span id="a1" class="cyanblack">Ch1</span>
 	<span id="extrefLed">ExtRef</span>
 <td></td>

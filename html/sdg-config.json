@@ -8,7 +8,6 @@
 "macrosUpdateHistory": true,
 "scpiResultsAppend": true,
 "scpiHeightPx": 100,
-"counterAveraging": true,
 "ZZZwsGateway": "ws://pi4.home:6789"
 }
 

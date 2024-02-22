@@ -135,6 +135,14 @@ button:disabled {
   color:#5bd7d7;
 }
 
+.blink {
+  animation: blinker 1s step-start infinite;
+}
+
+@keyframes blinker {
+  50% { opacity: 0; }
+}
+
 #logspanel {
 }
 
@@ -694,7 +702,7 @@ div.fullpage div {
 <td style="padding:0;"><button id="rxbut" disabled>R</button></td>
 <td><select id="devices">
 <td><button id="helpBut" name="INT_SHOWHELP"><u>H</u>elp</button></td>
-<td><button id="awgBut" name="INT_SHOWAWG"><u>A</u>wg</button></td>
+<td><button id="awgBut" name="INT_SHOWAWG"><u>A</u>WG</button></td>
 <td><button id="toolsBut" name="INT_SHOWTOOLS"><u>T</u>ools</button></td>
 <td><button id="counterBut" name="INT_SHOWCOUNTER"><u>F</u>reqCtr</button></td>
 <td><button id="refresh" name="INT_REFRESH"><u>R</u>efresh</button></td>
@@ -708,7 +716,7 @@ div.fullpage div {
 	<table width="100%" border="3">
 	<tr>
 	<td id="errorlogs" class="vt100">
-	<div class="nokey errorlog">Websocket errors are logged here</div>
+	<div class="nokey errorlog">This is the log window</div>
 	<td valign="top" class="banner">
 	    <button class="scpibutton hpbeige" id="logsClose" name="INT_TOGGLELOGS">Close</button>
 	<br><button class="scpibutton hpbeige" id="logsCopy" name="INT_COPYLOGS">Copy</button>
@@ -886,8 +894,8 @@ div.fullpage div {
 	<span id="referenceLed">Refr</span>
 	<span id="deviationLed">ppb</span>
 	<span id="trigLevLed">Trig</span>
-	<span id="AverageLed">Avg</span>
-	<span id="a1" class="cyanblack">Ch1</span>
+	<span id="averageLed">Avg</span>
+	<span id="ch1Led" class="cyanblack">Ch1</span>
 	<span id="extrefLed">ExtRef</span>
 <td></td>
 
@@ -896,8 +904,8 @@ div.fullpage div {
 <table id="counterButtons">
 <tr id="counterLegend">
 <td colspan="2">
-<td class="tlrborder" colspan="6"><span>MEASURE</span>
-<td class="tlrborder" colspan="6"><span>CONTROL</span>
+<td class="tlrborder" colspan="8"><span>MEASURE</span>
+<td class="tlrborder" colspan="4"><span>CONTROL</span>
 <td class="tlrborder"><span>CH1
 
 <tr>
@@ -911,16 +919,16 @@ div.fullpage div {
 <td><button class="hprect hpdark"  name="INT_CTR_DISP_TIME">Time&nbsp;&amp; Period</button>
 
 <td><button id="otherFCNT" class="led" disabled></button>
-<td class="rborder"><button class="hprect hpdark"  name="INT_CTR_DISP_OTHER">Other Meas</button>
+<td><button class="hprect hpdark"  name="INT_CTR_DISP_OTHER">Other Meas</button>
+
+<td><button id="gateFCNT" class="led" disabled></button>
+<td class="rborder"><button class="hprect hpdark"  name="INT_CTR_GATE">Gate Time</button>
 
 <td class="lborder"><button id="refreshFCNT_on" class="led" disabled></button>
 <td><button class="hprect hplight"  name="INT_CTR_REFRESH_ON">Run<br>&nbsp;</button>
 
 <td><button id="refreshFCNT_off" class="led" disabled></button>
-<td><button class="hprect hplight"  name="INT_CTR_REFRESH_OFF">Stop&nbsp;/ Single</button>
-
-<td><button id="fastFCNT" class="led" disabled></button>
-<td class="rborder"><button class="hprect hplight"  name="INT_CTR_FAST">Fast&nbsp;/ Slow</button>
+<td class="rborder"><button class="hprect hplight"  name="INT_CTR_REFRESH_OFF">Stop&nbsp;/ Single</button>
 
 <td class="blrborder" rowspan="2">
 
@@ -939,8 +947,8 @@ div.fullpage div {
 <td><button id="txFCNT" class="led" disabled></button>
 <td class="RemoteTxt"><span>Remote<span>
 
-<td class="blrborder" colspan="6">
-<td class="blrborder" colspan="6">
+<td class="blrborder" colspan="8">
+<td class="blrborder" colspan="4">
 
 </table>
 
